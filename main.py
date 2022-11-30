@@ -18,7 +18,7 @@ else:
             input_str = fp.read()
             outputs = eval(f"{day_str}(input_str)")
 
-        if outputs == None:
+        if outputs in (None, []):
             print("The code does not return anything!")
         else:
             for i in range(len(outputs)):
