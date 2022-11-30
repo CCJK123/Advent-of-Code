@@ -1,3 +1,3 @@
-# Advent of Code 2021
-My (definitely not scuff) solutions to the Advent of Code 2021 problems.
-The problems can be found [here](https://adventofcode.com/2021).
+# Advent of Code
+
+This repository contains my (definitely not scuff) solutions to the annual Advent of Code problems, which can be found [here](https://adventofcode.com).
