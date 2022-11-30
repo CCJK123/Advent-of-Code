@@ -1,4 +1,4 @@
-year_no = 2021
+year_no = 2022
 day_no = input("Run which day's code? ")
 
 try:
