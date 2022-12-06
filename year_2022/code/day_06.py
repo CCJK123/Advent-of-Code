@@ -1,5 +1,5 @@
 def day_06(input_str):
-    # Inital setup
+    # Initial setup
     outputs = []
 
     # Part 1
