@@ -1,5 +1,5 @@
 def day_01(input_str):
-    # Inital setup
+    # Initial setup
     input_array = [sum([int(j) for j in i.split("\n")])
                    for i in input_str.split("\n\n")]
     outputs = []

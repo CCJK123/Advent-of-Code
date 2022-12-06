@@ -1,5 +1,5 @@
 def day_05(input_str):
-    # Inital setup
+    # Initial setup
     import copy
     input_array = [i.split("\n") for i in input_str.split("\n\n")]
     outputs = []
