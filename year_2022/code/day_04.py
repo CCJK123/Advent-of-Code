@@ -1,5 +1,5 @@
 def day_04(input_str):
-    # Inital setup
+    # Initial setup
     input_array = [[j.split("-") for j in i.split(",")]
                    for i in input_str.split("\n")]
     for i in range(len(input_array)):
