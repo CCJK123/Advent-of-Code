@@ -1,4 +1,4 @@
-year_no = 2022
+year_no = 2023
 day_no = input("Run which day's code? ")
 
 try:
@@ -9,7 +9,6 @@ except ValueError:
 
 else:
     if day_no in range(1, 26):
-
         day_str = f"day_{str(day_no).zfill(2)}"
         year_str = f"year_{year_no}"
 
