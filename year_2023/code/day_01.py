@@ -35,9 +35,11 @@ def day_01(input_str):
         original_line_length = len(line)
         buffer_length = 0
         while original_line_length == len(line):
+            if re.search(f"^\D{{{buffer_length}}}\d", line) != None:
+                break
             for number in numerical_words.keys():
                 line = re.sub(
-                    "^" + buffer_length * "\D" + number, numerical_words[number], line
+                    f"^\D{{{buffer_length}}}{number}", numerical_words[number], line
                 )
             if buffer_length + 3 > len(line):
                 break
@@ -47,9 +49,11 @@ def day_01(input_str):
         original_line_length = len(line)
         buffer_length = 0
         while original_line_length == len(line):
+            if re.search(f"\d\D{{{buffer_length}}}$", line) != None:
+                break
             for number in numerical_words.keys():
                 line = re.sub(
-                    number + buffer_length * "\D" + "$", numerical_words[number], line
+                    f"{number}\D{{{buffer_length}}}$", numerical_words[number], line
                 )
             if buffer_length + 3 > len(line):
                 break
