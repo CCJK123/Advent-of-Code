@@ -10,7 +10,7 @@ def day_01(input_str):
     num_sum = 0
 
     for line in num_array:
-        line = re.sub("[a-z]+", "", line)
+        line = re.sub(r"[a-z]+", "", line)
         num_sum += int(line[0] + line[-1])
 
     outputs.append(num_sum)
@@ -35,11 +35,11 @@ def day_01(input_str):
         original_line_length = len(line)
         buffer_length = 0
         while original_line_length == len(line):
-            if re.search(f"^\D{{{buffer_length}}}\d", line) != None:
+            if re.search(rf"^\D{{{buffer_length}}}\d", line) != None:
                 break
             for number in numerical_words.keys():
                 line = re.sub(
-                    f"^\D{{{buffer_length}}}{number}", numerical_words[number], line
+                    rf"^\D{{{buffer_length}}}{number}", numerical_words[number], line
                 )
             if buffer_length + 3 > len(line):
                 break
@@ -49,17 +49,17 @@ def day_01(input_str):
         original_line_length = len(line)
         buffer_length = 0
         while original_line_length == len(line):
-            if re.search(f"\d\D{{{buffer_length}}}$", line) != None:
+            if re.search(rf"\d\D{{{buffer_length}}}$", line) != None:
                 break
             for number in numerical_words.keys():
                 line = re.sub(
-                    f"{number}\D{{{buffer_length}}}$", numerical_words[number], line
+                    rf"{number}\D{{{buffer_length}}}$", numerical_words[number], line
                 )
             if buffer_length + 3 > len(line):
                 break
             buffer_length += 1
 
-        line = re.sub("[a-z]+", "", line)
+        line = re.sub(r"[a-z]+", "", line)
         num_sum += int(line[0] + line[-1])
 
     outputs.append(num_sum)
