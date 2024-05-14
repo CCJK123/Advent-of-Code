@@ -4,7 +4,7 @@ def day_14(input_str):
     input_array = []
     for match in re.finditer(r"\b([^ ]+).+?(\d+).+?(\d+).+?(\d+).+", input_str):
         temp = [match.group(i) for i in range(1, 5)]
-        for i in range(1,4):
+        for i in range(1, 4):
             temp[i] = int(temp[i])
         input_array.append(temp)
     duration, outputs = 2503, []
