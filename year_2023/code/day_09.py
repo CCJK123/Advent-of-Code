@@ -3,7 +3,7 @@ def day_09(input_str):
     input_array = [[int(j) for j in i.split(" ")] for i in input_str.split("\n")]
     outputs = []
 
-    # Part 1 & 2 Combined
+    # Parts 1 & 2 Combined
     value_sum = value_sum_2 = 0
 
     for value_history in input_array:
