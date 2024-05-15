@@ -3,7 +3,7 @@ def day_08(input_str):
     input_array = input_str.split("\n")
     outputs = []
 
-    # Port 1
+    # Part 1
     total_diff = 0
     for code_str in input_array:
         total_diff += len(code_str) - eval(f"len({code_str})")
