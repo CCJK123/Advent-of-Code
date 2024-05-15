@@ -29,7 +29,7 @@ def day_13(input_str):
     
     outputs = []
 
-    # Port 1
+    # Part 1
     people = set()
     for pair in input_dict.keys():
         people = people.union(pair)
