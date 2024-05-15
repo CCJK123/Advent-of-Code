@@ -4,7 +4,7 @@ def day_12(input_str):
     input_json = json.loads(input_str)
     outputs = []
 
-    # Port 1
+    # Part 1
     num_sum = 0
     for match_obj in re.finditer(r"-?\d+", input_str):
         num_sum += int(match_obj.group(0))
