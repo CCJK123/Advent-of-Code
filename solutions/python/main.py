@@ -26,7 +26,7 @@ def main():
         prompt = input(
             "Module containing puzzle solution does not exist. Create from template? [Y/n]: "
         )
-        if prompt == "" or prompt[0] in ("", "Y", "y"):
+        if prompt == "" or prompt[0] in ("Y", "y"):
             shutil.copyfile(
                 "solutions/python/template.py", f"solutions/python/{year}/{day}.py"
             )
