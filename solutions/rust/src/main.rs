@@ -2,11 +2,13 @@ mod utils;
 
 use std::fs::{self, File};
 use std::io::{ErrorKind, Write};
-use std::process::{self, Command};
+use std::process::Command;
 
 use crate::utils::{prompt, yn_prompt};
 
 fn main() {
+    #![allow(unreachable_code)]
+
     // Get puzzle solution to run
     let year = "2024";
     let day = prompt("Run which day's code? (1-25): ")
@@ -36,14 +38,15 @@ fn main() {
                 println!("File `{}` created.", &input_file_path[6..]);
             } else {
                 println!("Aborted.");
-                process::exit(0)
+                return;
             }
             String::new()
         }
     };
 
     // Run puzzle solution
-    match [year, day] {
+    #[allow(unused_variables)]
+    let outputs: Vec<&str> = match [year, day] {
         _ => {
             if yn_prompt(
                 "Module containing puzzle solution might not exist. Create from template? [Y/n]: ",
@@ -99,7 +102,7 @@ fn main() {
                 // Add match arm to run puzzle solution for given year and day if it doesn't exist
                 let mut is_within_match = false;
                 for line in main_file_old.lines() {
-                    if line == "    match [year, day] {" {
+                    if line == "    let outputs: Vec<&str> = match [year, day] {" {
                         is_within_match = true;
                     } else if is_within_match
                         && (line == "        _ => {" || code_to_add[1].as_str() < line)
@@ -125,8 +128,17 @@ fn main() {
                 println!("File `solutions/rust/{day_module_file_path}` created and module hierarchy updated accordingly.");
             } else {
                 println!("Aborted.");
-                process::exit(0)
             }
+            return;
         }
+    };
+
+    // Print puzzle solution output
+    if outputs.len() == 0 {
+        println!("The code does not return anything!");
+        return;
+    }
+    for (i, output) in outputs.iter().enumerate() {
+        println!("Part {}: {output}", i + 1);
     }
 }
