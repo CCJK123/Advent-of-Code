@@ -13,9 +13,9 @@ fn main() {
     // Get puzzle solution to run
     let year = "2024";
     let day = prompt("Run which day's code? (1-25): ")
-        .expect("Failed to get user input.")
+        .expect("Failed to get user input")
         .parse::<u8>()
-        .expect("Invalid number.");
+        .expect("Invalid number");
     if day == 0u8 || day > 25u8 {
         panic!("Invalid day")
     }
@@ -30,15 +30,15 @@ fn main() {
             assert_eq!(e.kind(), ErrorKind::NotFound);
             if yn_prompt("Input file doesn't exist. Create empty file? [Y/n]: ") {
                 fs::create_dir_all(format!("../../inputs/{year}"))
-                    .expect("Failed to create year module directory.");
+                    .expect("Failed to create year module directory");
                 File::options()
                     .write(true)
                     .create_new(true)
                     .open(input_file_path)
                     .expect("Failed to create input file");
-                println!("File `{}` created.", &input_file_path[6..]);
+                println!("File `{}` created", &input_file_path[6..]);
             } else {
-                println!("Aborted.");
+                println!("Aborted");
                 return;
             }
             String::new()
@@ -54,38 +54,38 @@ fn main() {
             ) {
                 // Create year module directory if it doesn't exist
                 fs::create_dir_all(format!("src/y{year}"))
-                    .expect("Failed to create year module directory.");
+                    .expect("Failed to create year module directory");
 
                 // Update year module file if it's missing contents (module definition of input day)
                 let year_module_file_path = &format!("src/y{year}/mod.rs");
                 let code_to_add = &format!("pub mod d{day};\n");
                 if !(fs::exists(year_module_file_path)
-                    .expect("Failed to check if year module file exists.")
+                    .expect("Failed to check if year module file exists")
                     && fs::read_to_string(year_module_file_path)
-                        .expect("Failed to read year module file.")
+                        .expect("Failed to read year module file")
                         .contains(code_to_add))
                 {
                     let mut year_module_file = File::options()
                         .append(true)
                         .create(true)
                         .open(year_module_file_path)
-                        .expect("Failed to open year module file.");
+                        .expect("Failed to open year module file");
                     year_module_file
                         .write_all(code_to_add.as_bytes())
-                        .expect("Failed to update module file.");
+                        .expect("Failed to update module file");
                     Command::new("rustfmt")
                         .arg(year_module_file_path)
                         .output()
-                        .expect("Failed to format year module file.");
+                        .expect("Failed to format year module file");
                 }
 
                 // Create day module file (from template) if it doesn't exist
                 let day_module_file_path = &format!("src/y{year}/d{day}.rs");
                 if !fs::exists(day_module_file_path)
-                    .expect("Failed to check if day module file exists.")
+                    .expect("Failed to check if day module file exists")
                 {
                     fs::copy("template.rs", day_module_file_path)
-                        .expect("Failed to create day module file from template.");
+                        .expect("Failed to create day module file from template");
                 }
 
                 // Update `main.rs` file accordingly
@@ -117,23 +117,23 @@ fn main() {
                     .write(true)
                     .truncate(true)
                     .open(main_file_path)
-                    .expect("Failed to open `main.rs` to update it.");
+                    .expect("Failed to open `main.rs` to update it");
                 main_file
                     .write_all(main_file_new.as_bytes())
-                    .expect("Failed to update `main.rs`.");
+                    .expect("Failed to update `main.rs`");
                 Command::new("rustfmt")
                     .arg(main_file_path)
                     .output()
-                    .expect("Failed to format `main.rs`.");
+                    .expect("Failed to format `main.rs`");
                 Command::new("rustfmt").arg(main_file_path);
-                println!("File `solutions/rust/{day_module_file_path}` created and module hierarchy updated accordingly.");
+                println!("File `solutions/rust/{day_module_file_path}` created and module hierarchy updated accordingly");
             } else {
-                println!("Aborted.");
+                println!("Aborted");
             }
             return;
         }
     };
-    let outputs = outputs.expect("Puzzle solution error.");
+    let outputs = outputs.expect("Puzzle solution error");
 
     // Print puzzle solution output
     if outputs.len() == 0 {
