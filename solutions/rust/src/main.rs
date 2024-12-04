@@ -1,5 +1,6 @@
 mod utils;
 
+use std::error::Error;
 use std::fs::{self, File};
 use std::io::{ErrorKind, Write};
 use std::process::Command;
@@ -46,7 +47,7 @@ fn main() {
 
     // Run puzzle solution
     #[allow(unused_variables)]
-    let outputs: Vec<&str> = match [year, day] {
+    let outputs: Result<Vec<&str>, Box<dyn Error>> = match [year, day] {
         _ => {
             if yn_prompt(
                 "Module containing puzzle solution might not exist. Create from template? [Y/n]: ",
@@ -102,7 +103,7 @@ fn main() {
                 // Add match arm to run puzzle solution for given year and day if it doesn't exist
                 let mut is_within_match = false;
                 for line in main_file_old.lines() {
-                    if line == "    let outputs: Vec<&str> = match [year, day] {" {
+                    if line == "    let outputs: Result<Vec<&str>, Box<dyn Error>> = match [year, day] {" {
                         is_within_match = true;
                     } else if is_within_match
                         && (line == "        _ => {" || code_to_add[1].as_str() < line)
@@ -132,6 +133,7 @@ fn main() {
             return;
         }
     };
+    let outputs = outputs.expect("Puzzle solution error.");
 
     // Print puzzle solution output
     if outputs.len() == 0 {
