@@ -100,7 +100,7 @@ fn main() {
                 // Add match arm to run puzzle solution for given year and day if it doesn't exist
                 let mut is_within_match = false;
                 for line in main_file_old.lines() {
-                    if line == code_to_add[0] {
+                    if line == code_to_add[0].trim_end_matches("\n") {
                         continue;
                     };
                     if line == "    let outputs = match [year, day] {" {

@@ -1,6 +1,6 @@
-use std::{error::Error, fmt::Display};
+use std::error::Error;
 
-pub fn run(input: &str) -> Result<Vec<impl Display>, Box<dyn Error>> {
+pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
     // Initial setup
     let mut outputs = Vec::new();
 
@@ -27,5 +27,5 @@ pub fn run(input: &str) -> Result<Vec<impl Display>, Box<dyn Error>> {
     }
     outputs.push(total);
 
-    Ok(outputs)
+    Ok(outputs.iter().map(|s| s.to_string()).collect())
 }
