@@ -45,6 +45,7 @@ fn main() {
     // Run puzzle solution
     let outputs = match [year, day] {
         ["2024", "01"] => y2024::d01::run(&input),
+        ["2024", "02"] => y2024::d02::run(&input),
         _ => {
             if yn_prompt(
                 "Module containing puzzle solution might not exist. Create from template? [Y/n]: ",
