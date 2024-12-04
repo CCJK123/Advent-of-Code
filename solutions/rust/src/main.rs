@@ -100,6 +100,9 @@ fn main() {
                 // Add match arm to run puzzle solution for given year and day if it doesn't exist
                 let mut is_within_match = false;
                 for line in main_file_old.lines() {
+                    if line == code_to_add[0] {
+                        continue;
+                    };
                     if line == "    let outputs = match [year, day] {" {
                         is_within_match = true;
                     } else if is_within_match
@@ -107,7 +110,7 @@ fn main() {
                     {
                         main_file_new += code_to_add[1];
                         is_within_match = false;
-                    } // add catch for no misc arms
+                    }
                     main_file_new += &format!("{line}\n");
                 }
                 let mut main_file = File::options()
