@@ -1,6 +1,6 @@
 mod utils;
+mod y2024;
 
-use std::error::Error;
 use std::fs::{self, File};
 use std::io::{ErrorKind, Write};
 use std::process::Command;
@@ -8,8 +8,6 @@ use std::process::Command;
 use crate::utils::{prompt, yn_prompt};
 
 fn main() {
-    #![allow(unreachable_code)]
-
     // Get puzzle solution to run
     let year = "2024";
     let day = prompt("Run which day's code? (1-25): ")
@@ -23,7 +21,6 @@ fn main() {
 
     // Get puzzle input
     let input_file_path = &format!("../../inputs/{year}/{day}.txt");
-    #[allow(unused_variables)]
     let input = match fs::read_to_string(input_file_path) {
         Ok(i) => i,
         Err(e) => {
@@ -46,8 +43,8 @@ fn main() {
     };
 
     // Run puzzle solution
-    #[allow(unused_variables)]
-    let outputs: Result<Vec<&str>, Box<dyn Error>> = match [year, day] {
+    let outputs = match [year, day] {
+        ["2024", "01"] => y2024::d01::run(&input),
         _ => {
             if yn_prompt(
                 "Module containing puzzle solution might not exist. Create from template? [Y/n]: ",
@@ -103,7 +100,7 @@ fn main() {
                 // Add match arm to run puzzle solution for given year and day if it doesn't exist
                 let mut is_within_match = false;
                 for line in main_file_old.lines() {
-                    if line == "    let outputs: Result<Vec<&str>, Box<dyn Error>> = match [year, day] {" {
+                    if line == "    let outputs = match [year, day] {" {
                         is_within_match = true;
                     } else if is_within_match
                         && (line == "        _ => {" || code_to_add[1].as_str() < line)
@@ -132,8 +129,7 @@ fn main() {
             }
             return;
         }
-    };
-    let outputs = outputs.expect("Puzzle solution error");
+    }.expect("Puzzle solution error");
 
     // Print puzzle solution output
     if outputs.len() == 0 {
