@@ -32,7 +32,7 @@ pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
         let Some(mut empty_block_count) = disk_map.pop_front() else {
             break;
         };
-        while empty_block_count != 0 {
+        while current_block_id != block_count && empty_block_count != 0 {
             let rear_file_block_count = disk_map[disk_map.len() - 1];
             if empty_block_count >= rear_file_block_count {
                 // Entire rear file can fit into empty block
@@ -54,9 +54,6 @@ pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
             }
         }
     }
-
-    // println!("{block_count}");
-    // let mut blocks = Vec::new();
 
     outputs.push(checksum);
 
