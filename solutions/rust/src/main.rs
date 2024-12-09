@@ -50,6 +50,7 @@ fn main() {
         ["2024", "04"] => y2024::d04::run(&input),
         ["2024", "05"] => y2024::d05::run(&input),
         ["2024", "06"] => y2024::d06::run(&input),
+        ["2024", "09"] => y2024::d09::run(&input),
         _ => {
             if yn_prompt(
                 "Module containing puzzle solution might not exist. Create from template? [Y/n]: ",
