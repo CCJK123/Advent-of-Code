@@ -12,8 +12,9 @@ pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
         })
         .collect::<Vec<_>>();
 
-    // Part 1
-    let mut score = 0;
+    // Parts 1 & 2 combined
+    let mut score = 0; // Part 1
+    let mut rating = 0; // Part 2
     let starting_coords_vec = input
         .iter()
         .enumerate()
@@ -30,9 +31,11 @@ pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
         })
         .unwrap();
     for starting_coords in starting_coords_vec.iter() {
-        let mut subsequent_coords = test_adjacent(&input, starting_coords, 1);
+        let mut subsequent_coords_p2 = test_adjacent(&input, starting_coords, 1);
+        let mut subsequent_coords_p1: HashSet<&[usize; 2]> =
+            HashSet::from_iter(&subsequent_coords_p2);
         for height in 2..10 {
-            subsequent_coords = subsequent_coords
+            subsequent_coords_p2 = subsequent_coords_p2
                 .iter()
                 .map(|coords| test_adjacent(&input, coords, height))
                 .reduce(|mut acc, e| {
@@ -40,15 +43,18 @@ pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
                     acc
                 })
                 .unwrap();
+            subsequent_coords_p1 = HashSet::from_iter(&subsequent_coords_p2);
         }
-        score += subsequent_coords.len();
+        score += subsequent_coords_p1.len();
+        rating += subsequent_coords_p2.len();
     }
     outputs.push(score);
+    outputs.push(rating);
 
     Ok(outputs.iter().map(|s| s.to_string()).collect())
 }
 
-fn test_adjacent(input: &Vec<Vec<u8>>, coords: &[usize; 2], height: u8) -> HashSet<[usize; 2]> {
+fn test_adjacent(input: &Vec<Vec<u8>>, coords: &[usize; 2], height: u8) -> Vec<[usize; 2]> {
     let mut valid_adjacent_coords = Vec::new();
     if coords[0] > 0 {
         valid_adjacent_coords.push([coords[0] - 1, coords[1]])
@@ -65,5 +71,5 @@ fn test_adjacent(input: &Vec<Vec<u8>>, coords: &[usize; 2], height: u8) -> HashS
     valid_adjacent_coords
         .into_iter()
         .filter(|[i, j]| input[*i][*j] == height)
-        .collect::<HashSet<_>>()
+        .collect::<Vec<_>>()
 }
