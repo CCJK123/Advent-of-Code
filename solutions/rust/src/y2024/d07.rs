@@ -38,5 +38,29 @@ pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
     }
     outputs.push(total);
 
+    // Part 2
+    let mut total = 0;
+    for (result, values) in &input {
+        if values
+            .iter()
+            .fold(Vec::new(), |mut acc, &v| {
+                if acc.len() == 0 {
+                    acc.push(v);
+                    acc
+                } else {
+                    acc.iter()
+                        .map(|old| [old + v, old * v, old * 10u64.pow(v.ilog10() + 1) + v])
+                        .flatten()
+                        .collect::<Vec<_>>()
+                }
+            })
+            .iter()
+            .any(|v| v == result)
+        {
+            total += result;
+        }
+    }
+    outputs.push(total);
+
     Ok(outputs.iter().map(|s| s.to_string()).collect())
 }
