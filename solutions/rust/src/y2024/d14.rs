@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use std::{cmp::Ordering, error::Error};
 
 pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
@@ -13,9 +14,36 @@ pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
             [line.next().unwrap(), line.next().unwrap()]
         })
         .collect::<Vec<_>>();
+    let grid_size = [101, 103];
 
     // Part 1
-    outputs.push(get_safety_factor(&input, 100, [101, 103]));
+    outputs.push(get_safety_factor(&input, 100, grid_size));
+
+    // Part 2
+    let mut seconds = 0;
+    loop {
+        seconds += 1;
+        let robots = get_end_coords(&input, seconds, grid_size);
+        let mut picture = vec![vec!['.'; grid_size[0] as usize]; grid_size[1] as usize];
+        for robot in robots {
+            picture[robot[1] as usize][robot[0] as usize] = '#';
+        }
+        if picture
+            .iter()
+            .map(|r| r.iter().collect::<String>())
+            .any(|r| {
+                r.contains("###############################") // Bodge
+            })
+        {
+            let picture = picture
+                .iter()
+                .map(|r| r.iter().collect::<String>())
+                .join("\n");
+            println!("{picture}");
+            break;
+        }
+    }
+    outputs.push(seconds);
 
     Ok(outputs.iter().map(|s| s.to_string()).collect())
 }
