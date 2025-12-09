@@ -1,5 +1,6 @@
 mod utils;
 mod y2024;
+mod y2025;
 
 use std::fs::{self, File};
 use std::io::{ErrorKind, Write};
@@ -9,7 +10,7 @@ use crate::utils::{prompt, yn_prompt};
 
 fn main() {
     // Get puzzle solution to run
-    let year = "2024";
+    let year = "2025";
     let day = prompt("Run which day's code? (1-25): ")
         .expect("Failed to get user input")
         .parse::<u8>()
@@ -59,6 +60,7 @@ fn main() {
         ["2024", "13"] => y2024::d13::run(&input),
         ["2024", "14"] => y2024::d14::run(&input),
         ["2024", "15"] => y2024::d15::run(&input),
+        ["2025", "01"] => y2025::d01::run(&input),
         _ => {
             if yn_prompt(
                 "Module containing puzzle solution might not exist. Create from template? [Y/n]: ",
