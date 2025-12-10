@@ -1,0 +1,52 @@
+use std::error::Error;
+
+pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
+    // Initial setup
+    let mut outputs = Vec::new();
+    let ranges = input
+        .split(",")
+        .map(|range| {
+            let mut range = range.split("-");
+            [
+                range.next().unwrap().parse().unwrap(),
+                range.next().unwrap().parse().unwrap(),
+            ]
+        })
+        .collect::<Vec<[u64; 2]>>();
+
+    // Part 1
+    let mut sum = 0;
+    for [lower_bound, upper_bound] in ranges.iter() {
+        let possible_lengths = (lower_bound.to_string().len()..=upper_bound.to_string().len())
+            .filter(|length| length % 2 == 0);
+
+        for length in possible_lengths {
+            let length = length as u32;
+
+            // Get bounds for a specific length
+            let lower_bound = (*lower_bound).max(10_u64.pow(length - 1));
+            let upper_bound = (*upper_bound).min(10_u64.pow(length) - 1);
+            assert_eq!(lower_bound.to_string().len() as u32, length);
+            assert_eq!(upper_bound.to_string().len() as u32, length);
+
+            // Get left and right halves of respective bounds for subsequent calculations
+            let lower_bound_left = lower_bound / 10_u64.pow(length / 2);
+            let lower_bound_right = lower_bound % 10_u64.pow(length / 2);
+            let upper_bound_left = upper_bound / 10_u64.pow(length / 2);
+            let upper_bound_right = upper_bound % 10_u64.pow(length / 2);
+
+            // Calculate sum of invalid IDs accordingly
+            sum +=
+                (lower_bound_left..=upper_bound_left).sum::<u64>() * (10_u64.pow(length / 2) + 1);
+            if lower_bound_left < lower_bound_right {
+                sum -= lower_bound_left * (10_u64.pow(length / 2) + 1)
+            }
+            if upper_bound_left > upper_bound_right {
+                sum -= upper_bound_left * (10_u64.pow(length / 2) + 1)
+            }
+        }
+    }
+    outputs.push(sum);
+
+    Ok(outputs.iter().map(|s| s.to_string()).collect())
+}
