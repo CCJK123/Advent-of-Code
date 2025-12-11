@@ -6,6 +6,7 @@ pub fn run(input: &str) -> Result<Vec<String>, Box<dyn Error>> {
 
     // Part 1
     println!("Input: {input}");
+    outputs.push(0);
 
     Ok(outputs.iter().map(|s| s.to_string()).collect())
 }
