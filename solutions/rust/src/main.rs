@@ -5,6 +5,7 @@ mod y2025;
 use std::fs::{self, File};
 use std::io::{ErrorKind, Write};
 use std::process::Command;
+use std::time::Instant;
 
 use crate::utils::{prompt, yn_prompt};
 
@@ -44,6 +45,7 @@ fn main() {
     };
 
     // Run puzzle solution
+    let start_time = Instant::now();
     let outputs = match [year, day] {
         ["2024", "01"] => y2024::d01::run(&input),
         ["2024", "02"] => y2024::d02::run(&input),
@@ -155,6 +157,7 @@ fn main() {
             return;
         }
     }.expect("Puzzle solution error");
+    println!("Time elapsed: {:?}", start_time.elapsed());
 
     // Print puzzle solution output
     if outputs.len() == 0 {
